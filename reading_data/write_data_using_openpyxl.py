@@ -1,35 +1,60 @@
-from openpyxl import workbook
+from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill
 
-print('\n do you want to create a new workbook or edit an existing one: ')
-option = input ('type new or existing')
-
-def values(a,b):
-       
-
-def newinputs(rows,columns):
-     workbook = workbook()
-     sheetname = input('enter the name of the sheet')
-     workbook['Sheet'].title = sheetname
-     print(f'\n title of the workbook has been updated')
-     sheet1 = workbook.active
-     print ('name of the headings')
-     for i in range (columns):
-          headings = input(f'heading at row (1,{i}): ')
-          sheet1.cell(row=1, column=i).value = headings
-     print('added headings')
-     print('values for each cell')
-     for i in range (rows):
-        for j in range (columns):
-                  
+print('\nDo you want to create a new workbook or edit an existing one?')
+option = input('Type "new" or "existing": ').strip().lower()
 
 
+def newinputs(rows, columns):
+    wb = Workbook()
+    sheetname = input('Enter the name of the sheet: ')
+    wb.active.title = sheetname
+    sheet1 = wb.active
+
+    print('\nEnter column headings:')
+    for j in range(1, columns + 1):
+        heading = input(f'Heading for column {j}: ')
+        sheet1.cell(row=1, column=j).value = heading
+
+    print('\nEnter values for each cell:')
+    for i in range(2, rows + 2):
+        for j in range(1, columns + 1):
+            value = input(f'Value at ({i-1}, {j}): ')
+            sheet1.cell(row=i, column=j).value = value
+
+    filename = input('\nEnter filename to save (with .xlsx): ')
+    wb.save(filename)
+    print(f'\nWorkbook saved as {filename}')
+
+
+def edit_existing(path):
+    wb = load_workbook(path)
+    print(f'\nSheets in workbook: {wb.sheetnames}')
+    sheetname = input('Which sheet do you want to edit? ')
+    sheet1 = wb[sheetname]
+
+    rows = sheet1.max_row
+    columns = sheet1.max_column
+
+    print(f'\nThis sheet has {rows} rows and {columns} columns.')
+
+    for i in range(1, rows + 1):
+        for j in range(1, columns + 1):
+            print(f'({i},{j}) → {sheet1.cell(i, j).value}')
+
+    wb.save(path)
+    print('\nWorkbook updated.')
+
+
+# MAIN LOGIC
 if option == 'new':
-      rows = int(input('how many rows do you want'))
-      columns = int(input('how many columns do you want'))
+    rows = int(input('How many data rows do you want? '))
+    columns = int(input('How many columns do you want? '))
+    newinputs(rows, columns)
 
 elif option == 'existing':
-     workbook_name=input('enter the workbook name with the path and extension')
+    workbook_name = input('Enter the workbook path + name: ')
+    edit_existing(workbook_name)
 
 else:
-    print('entered a wrong option, enter either new or exsting')
+    print('Invalid option. Type "new" or "existing".')
