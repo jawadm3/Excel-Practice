@@ -17,6 +17,6 @@ print(f'number of rows ',rows,'number of columns ',  columns, end='\n\n')
 
 
 for i in range (1,rows+1):
-    for j in range (1,columns+1):
-        print(f'value at {i, j}: {sheet1.cell(i,j).value}', end='\n\n')
+     row_values = [sheet1.cell(i, j).value for j in range(1, columns + 1)]
+     print(row_values)
 

@@ -29,21 +29,32 @@ def newinputs(rows, columns):
 
 def edit_existing(path):
     wb = load_workbook(path)
-    print(f'\nSheets in workbook: {wb.sheetnames}')
-    sheetname = input('Which sheet do you want to edit? ')
+    sheetname = input(f'\nSheets available: {wb.sheetnames}\nWhich sheet do you want to edit? ')
     sheet1 = wb[sheetname]
 
     rows = sheet1.max_row
     columns = sheet1.max_column
 
-    print(f'\nThis sheet has {rows} rows and {columns} columns.')
+    print(f'\nThis sheet has {rows} rows and {columns} columns.\n')
+    print('Current data:\n')
 
     for i in range(1, rows + 1):
+        row_values = [sheet1.cell(i, j).value for j in range(1, columns + 1)]
+        print(row_values)
+
+    print('\nHow many new rows do you want to add?')
+    new_rows = int(input('Enter number: '))
+
+    start_row = rows + 1
+
+    for i in range(start_row, start_row + new_rows):
+        print(f'\nEntering values for new row {i - 1}:')
         for j in range(1, columns + 1):
-            print(f'({i},{j}) → {sheet1.cell(i, j).value}')
+            value = input(f'Value at ({i}, {j}): ')
+            sheet1.cell(row=i, column=j).value = value
 
     wb.save(path)
-    print('\nWorkbook updated.')
+    print(f'\nWorkbook updated and saved: {path}')
 
 
 # MAIN LOGIC
