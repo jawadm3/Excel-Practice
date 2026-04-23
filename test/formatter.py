@@ -13,11 +13,11 @@ for cell in ws[1]:
 colors = {"A": "C6EFCE", "B": "FFEB9C", "C": "FFC7CE"}  # green, yellow, red
 
 for row in ws.iter_rows(min_row = 2,max_row = ws.max_row):
-    grade = row[-1].value 
+    grade_cell = row[-1]
+    grade = grade_cell.value
     fill = PatternFill(start_color = colors[grade],end_color = colors[grade], fill_type='solid')
     for cell in row:
-        cell.fill = fill
+        grade_cell.fill = fill
 
 wb.save('Grades_formatted.xlsx')
 print ('formatted file saved!!')
-    
