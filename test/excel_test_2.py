@@ -12,5 +12,5 @@ df = pd.DataFrame(data)
 df["Average"] = df[["Math", "Science", "English"]].mean(axis=1).round(1)
 df['Grade'] = df["Average"].apply(lambda x: 'A' if x>=80 else 'B' if x>= 70 else 'C') 
 
-df.to_excel('Grades.xlsx')
+df.to_excel('Grades.xlsx', index=False)
 print('file created!')
