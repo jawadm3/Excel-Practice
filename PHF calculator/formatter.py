@@ -1,12 +1,13 @@
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
+from openpyxl.utils import get_column_letter 
 
 wb = load_workbook('phf_raw.xlsx')
 ws = wb.active
 
 col_widths = [14,10,10,10,10,14,13,8,10]
 for i,width in enumerate(col_widths,start=1):
-    ws.column_dimensions[ws.cell(1,i).column_letter].width = width
+    ws.column_dimensions[get_column_letter(i)].width = width
 
 # --- Header row: dark blue background, white bold text, centered --
 header_fill = PatternFill(start_color='1F4E79', end_color='1F4E79', fill_type="solid") 
